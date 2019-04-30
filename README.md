@@ -1,6 +1,15 @@
-# VICINITY Thinkinside localisation and geofencing adapter
+# INCANT: Thinkinside localisation and geofencing adapter for the VICINITY infrastructure
 
-This adapter exposes the Thinkinside localisation and geofencing adapter to the Vicinity infrastructure, allowing to gather position and status of tracked assets from the Vicinity platform.
+The INCANT adapter provides indoor localisation and geofencing support to the VICINITY infrastructure, allowing to gather position and status of tracked assets from the Vicinity platform.
+The logical architecture on how to use the adapter is reported in the following Figure:
+
+![architecture](https://raw.githubusercontent.com/vicinityh2020/vicinity-adapter-thinkinside/master/doc/incantn_arch.png)
+
+In order to create an application scenario based on the INCANT adapters, the following steps should be performed by a third-party:
+1. The necessary RTLS infrastructure needs to be deployed in the monitored area. This will vary with the specific targeted scenario. The RTLS will be integrated through the ThinkIN platform which will facilitate application developers in the overall management of the localisation infrastructure.
+2. A deployment is created on the ThinkIN platform. This includes the map of the environments where the objects will be moving and localised. All such environments should be monitored through the RTLS infrastructure.
+3. TAGs or Objects are registered in the VICINITY infrastructure and associated to the organisation managing the overall deployment.
+4. TAGs/Objects location will now be accessed through the adapters developed in INCANT.
 
 ## How ot build the adapter
 
