@@ -1,6 +1,6 @@
 # INCANT: Thinkinside localisation and geofencing adapter for the VICINITY infrastructure
 
-The INCANT adapter provides indoor localisation and geofencing support to the VICINITY infrastructure, allowing to gather position and status of tracked assets from the Vicinity platform.
+The INCANT adapter provides indoor localisation and geofencing support to the VICINITY infrastructure, allowing to gather position and status of tracked assets from the VICINITY platform.
 The logical architecture on how to use the adapter is reported in the following Figure:
 
 ![architecture](https://raw.githubusercontent.com/vicinityh2020/vicinity-adapter-thinkinside/master/doc/incantn_arch.png)
@@ -13,7 +13,7 @@ In order to create an application scenario based on the INCANT adapters, the fol
 Once this is performed, the following steps should be followed in order to utilise the adapters:
 1. The adapter should be build (see instructions below)
 2. The Adapter should be executed (see instructions below)
-3. The Agent should be configured and executed.
+3. The VICINTY Agent should be configured and executed (see instructions below).
 
 ## How ot build the adapter
 
@@ -24,5 +24,25 @@ docker build -t vicinity-thinkinside-adapter .
 ## How to run the adapter
 
 docker run -p 9998:9000 -d vicinity-thinkinside-adapter
+
+## How to configure and run the VICINITY Agent
+
+1. Download and open the following .zip file: https://github.com/vicinityh2020/vicinity-agent/releases/download/v0.6.3.1/agent-build-0.6.3.1.zip
+2. Create a new file ./config/agents/thinkin-agent.json
+3. Insert in the thinkin-agent.json the following configuration:
+
+```{
+  "credentials": {
+    "agent-id": "YOUR_CREDENTIALS_FROM_VICINITY_NEIGHBOURHOOD_MANAGER",
+    "password": "YOUR_PASSWORD"
+  },
+  "adapters": [
+    {
+      "adapter-id": "thinkin-adapter-py",
+      "endpoint": "http://localhost:9998"
+    }
+  ]
+}```
+
 
 
