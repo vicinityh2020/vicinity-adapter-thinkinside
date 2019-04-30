@@ -10,7 +10,7 @@ In order to create an application scenario based on the INCANT adapters, the fol
 2. A deployment is created on the ThinkIN platform. This includes the map of the environments where the objects will be moving and localised. All such environments should be monitored through the RTLS infrastructure.
 3. A VICINITY Open Gateway should be installed, properly configured (https://github.com/vicinityh2020/vicinity-gateway-api)
 
-Once this is performed, 
+Once this is performed, the following steps should be followed in order to utilise the adapters:
 1. The adapter should be build (see instructions below)
 2. The Adapter should be executed (see instructions below)
 3. The Agent should be configured and executed.
