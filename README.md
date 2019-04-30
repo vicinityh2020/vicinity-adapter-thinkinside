@@ -9,6 +9,7 @@ In order to create an application scenario based on the INCANT adapters, the fol
 1. The necessary RTLS infrastructure needs to be deployed in the monitored area. This will vary with the specific targeted scenario. The RTLS will be integrated through the ThinkIN platform which will facilitate application developers in the overall management of the localisation infrastructure.
 2. A deployment is created on the ThinkIN platform. This includes the map of the environments where the objects will be moving and localised. All such environments should be monitored through the RTLS infrastructure.
 3. A VICINITY Open Gateway should be installed, properly configured (https://github.com/vicinityh2020/vicinity-gateway-api)
+4. A VICINITY Access Point (AP) should be created for the newly created deployment. The UID and PASSWORD created for the AP should then be used in the configuration of the Agent (see instructions below).
 
 Once this is performed, the following steps should be followed in order to utilise the adapters:
 1. The adapter should be build (see instructions below)
