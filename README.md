@@ -5,17 +5,21 @@ The logical architecture on how to use the adapter is reported in the following 
 
 ![architecture](https://raw.githubusercontent.com/vicinityh2020/vicinity-adapter-thinkinside/master/doc/incantn_arch.png)
 
-In order to create an application scenario based on the INCANT adapters, the following steps should be performed by a third-party:
+In order to create an application scenario based on the INCANT adapters, the following pre-requisites should satisfied by a third-party:
 1. The necessary RTLS infrastructure needs to be deployed in the monitored area. This will vary with the specific targeted scenario. The RTLS will be integrated through the ThinkIN platform which will facilitate application developers in the overall management of the localisation infrastructure.
 2. A deployment is created on the ThinkIN platform. This includes the map of the environments where the objects will be moving and localised. All such environments should be monitored through the RTLS infrastructure.
-3. TAGs or Objects are registered in the VICINITY infrastructure and associated to the organisation managing the overall deployment.
-4. TAGs/Objects location will now be accessed through the adapters developed in INCANT.
+3. A VICINITY Open Gateway should be installed, properly configured (https://github.com/vicinityh2020/vicinity-gateway-api)
+
+Once this is performed, 
+1. The adapter should be build (see instructions below)
+2. The Adapter should be executed (see instructions below)
+3. The Agent should be configured and executed.
 
 ## How ot build the adapter
 
 The adapter is shipped with docker, for creating a new build image run:
 
-docker run -t vicinity-thinkinside-adapter .
+docker build -t vicinity-thinkinside-adapter .
 
 ## How to run the adapter
 
