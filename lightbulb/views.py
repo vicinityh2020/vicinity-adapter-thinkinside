@@ -1,5 +1,12 @@
 import json
 import random
+#                    Copyright © #2019#[1] Thinkinside srl. All rights reserved.
+#This file is part ofhinkinside adapter.
+#
+#thinkinside adapter is free software: you can redistribute it and/or modify it  underheerms of GNU GPL.
+#THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT ANY WARRANTY OF ANY KIND, EXPRESS OR  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT, IN NO EVENT SHALL THE     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER          LIABILITY, WHETHER IN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT  OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE       SOFTWARE.
+#
+#See README file forhe full disclaimer information and LICENSE file for full     license information inhe project root.
 
 import requests
 from django.http import JsonResponse
@@ -7,10 +14,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 TAG_OID_SINGLE = 'thinkin-indoor-location-tag'
 TAG_OID_SUMMARY = 'thinkin-indoor-location-summary'
+#LOCALISATION_URL2 = "http://192.168.1.140:8080/qpe/getTagPosition?version=2&maxAge=5000"
+#LOCALISATION_URL = "http://192.168.1.140:8080/qpe/getTagPosition?version=2"
+
 LOCALISATION_URL = "http://localhost:8080/qpe/getTagPosition?version=2"
-LOCALISATION_URL = "http://192.168.1.140:8080/qpe/getTagPosition?version=2"
 LOCALISATION_URL2 = "http://localhost:8080/qpe/getTagPosition?version=2&maxAge=5000"
-LOCALISATION_URL2 = "http://192.168.1.140:8080/qpe/getTagPosition?version=2&maxAge=5000"
+INFO_URL = "http://localhost:8080/qpe/getTagPosition?version=2"
+INFO_URL2 = "http://localhost:8080/qpe/getTagPosition?version=2&maxAge=5000"
 
 TAG_LIST = []
 
@@ -46,6 +56,10 @@ def location_tag(request, oid, pid):
 def get_tag_statistics():
     r = requests.get(LOCALISATION_URL2)
     data = r.json()
+
+    r_info = requests.get(INFO_URL2)
+    data_info = r_info.json()
+
     resp = {}
 
     resp['active_tags'] = len(data['tags'])
@@ -56,7 +70,7 @@ def get_tag_statistics():
         resp[i] = ""
 
     for i in data['tags']:
-        resp[i['id']] = json.dumps({"ts": i['positionTS'], "x": i['position'][0], "y": i['position'][1], 'zone': computeZone(i)})
+        resp[i['id']] = json.dumps({"ts": i['positionTS'], "x": i['position'][0], "y": i['position'][1], 'zone': computeZone(i), 'batteryVoltage': [j['batteryVoltage'] for j in data_info['tags'] if j['id'] == i['id']][0], 'acceleration': [j['acceleration'] for j in data_info['tags'] if j['id'] == i['id']][0]})
 
     return resp
 
@@ -67,8 +81,14 @@ def get_tag_position(tag_id):
 
     r = requests.get(LOCALISATION_URL)
     data = r.json()
+    r_info = requests.get(INFO_URL)
+    data_info = r_info.json()
 
-    return [{'x': i['position'][0], 'y': i['position'][1], 'z': i['position'][2], 'ts': i['positionTS'], 'zone': computeZone(i)} for i in filter(lambda x: tag_id.startswith(x['id']), data['tags'])][0]
+    tag = [{'x': i['position'][0], 'y': i['position'][1], 'z': i['position'][2], 'ts': i['positionTS'], 'zone': computeZone(i)} for i in filter(lambda x: tag_id.startswith(x['id']), data['tags'])][0]
+
+    tag['batteryVoltage'] = [ i['batteryVoltage'] for i in data_info['tags'] if i['id'] == tag['id']][0]
+    tag['acceleration'] = [ i['acceleration'] for i in data_info['tags'] if i['id'] == tag['id']][0]
+    return tag
 
 
 def computeZone(tag):
@@ -144,6 +164,18 @@ def get_property_list():
                                 },
                             {
                                 "name": "y",
+                                "schema": {
+                                    "type": "integer"
+                                    }
+                                },
+                            {
+                                "name": "acceleration",
+                                "schema": {
+                                    "type": "integer"
+                                    }
+                                },
+                            {
+                                "name": "batteryVoltage",
                                 "schema": {
                                     "type": "integer"
                                     }
